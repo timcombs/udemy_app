@@ -35,9 +35,9 @@ class App extends React.Component {
     });
   };
 
-  changeUsernameHandler = (newUser) => {
+  changeUsernameHandler = (event) => {
     this.setState({
-      username: newUser,
+      username: event.target.value,
     });
   };
 
@@ -64,8 +64,8 @@ class App extends React.Component {
         </button>
 
         <UserInput
-          username={this.state.username}
-          changeUser={this.changeUsernameHandler.bind(this, 'test')}
+          currentName={this.state.username}
+          changedUser={this.changeUsernameHandler}
         />
 
         <Person

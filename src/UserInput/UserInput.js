@@ -10,11 +10,14 @@ const UserInput = (props) => {
     margin: '0.5rem',
   };
 
-  console.log('props', props);
-
   return (
     <div>
-      <input style={style} type='text' value={props.username}></input>
+      <input
+        style={style}
+        type='text'
+        onChange={props.changedUser}
+        value={props.currentName}
+      ></input>
     </div>
   );
 };
