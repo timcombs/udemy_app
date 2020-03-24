@@ -1,0 +1,8 @@
+.UserOutput {
+  width: 60%;
+  margin: 1rem auto;
+  border: 0.05rem dashed #4f4fcd;
+  box-shadow: 0 0.2rem 0.2rem #4c4c89;
+  padding: 0.75rem;
+  text-align: center;
+}
