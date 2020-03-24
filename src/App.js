@@ -2,8 +2,8 @@ import React from 'react';
 import './App.css';
 
 import Person from './Person/Person';
-import UserInput from './UserInput/UserInput';
-import UserOutput from './UserOutput/UserOutput';
+// import UserInput from './UserInput/UserInput';
+// import UserOutput from './UserOutput/UserOutput';
 
 class App extends React.Component {
   state = {
@@ -12,17 +12,14 @@ class App extends React.Component {
       { name: 'sally', age: 33 },
       { name: 'lakesha', age: 23 },
     ],
-    username: 'someone',
+    showPersons: false,
+    // username: 'someone',
   };
 
-  switchNameHandler = (newName) => {
-    this.setState({
-      persons: [
-        { name: newName, age: 13 },
-        { name: 'sally', age: 33 },
-        { name: 'lakesha', age: 53 },
-      ],
-    });
+  deletePersonHandler = (idx) => {
+    const persons = [...this.state.persons];
+    persons.splice(idx, 1);
+    this.setState({ persons: persons });
   };
 
   nameChangedHandler = (event) => {
@@ -35,11 +32,16 @@ class App extends React.Component {
     });
   };
 
-  changeUsernameHandler = (event) => {
-    this.setState({
-      username: event.target.value,
-    });
+  togglePersonsHandler = (idx) => {
+    const doesShow = this.state.showPersons;
+    this.setState({ showPersons: !doesShow });
   };
+
+  // changeUsernameHandler = (event) => {
+  //   this.setState({
+  //     username: event.target.value,
+  //   });
+  // };
 
   render() {
     // use .bind(this, newSomething) syntax is possible rather than the
@@ -53,45 +55,35 @@ class App extends React.Component {
       cursor: 'pointer',
     };
 
+    let persons = null;
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.persons.map((person, idx) => {
+            return (
+              <Person
+                click={() => this.deletePersonHandler(idx)}
+                name={person.name}
+                age={person.age}
+              />
+              /* <UserInput
+                currentName={this.state.username}
+                changedUser={this.changeUsernameHandler}
+              /> */
+            );
+          })}
+        </div>
+      );
+    }
+
     return (
       <div className='App'>
         <h1>Hi, I'm a React application</h1>
-        <button
-          style={style}
-          onClick={() => this.switchNameHandler('timotayo')}
-        >
-          Switch Names
+        <button style={style} onClick={this.togglePersonsHandler}>
+          Toggle Persons
         </button>
 
-        <UserInput
-          currentName={this.state.username}
-          changedUser={this.changeUsernameHandler}
-        />
-
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age}
-        />
-        <UserOutput
-          username={this.state.username}
-          changedUser={this.changeUsernameHandler}
-        />
-
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, 'timothy!!!!')}
-          changed={this.nameChangedHandler}
-        >
-          My Hobbies: Fortnite
-        </Person>
-        <UserOutput username={this.state.username} />
-
-        <Person
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age}
-        />
-        <UserOutput username={this.state.username} />
+        {persons}
       </div>
     );
   }
